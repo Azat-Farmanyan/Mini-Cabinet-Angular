@@ -1,0 +1,8 @@
+<mat-toolbar color="primary">
+    <span style="cursor: pointer;" routerLink="/">Mini Cabinet Angular</span>
+    <span class="spacer"></span>
+
+    <button mat-button routerLink="/tickets" routerLinkActive="active">Tickets</button>
+    <button mat-button [routerLink]="['/profile',userid]" routerLinkActive="active">Profile</button>
+    <button mat-raised-button (click)="logout()">Log Out</button>
+</mat-toolbar>

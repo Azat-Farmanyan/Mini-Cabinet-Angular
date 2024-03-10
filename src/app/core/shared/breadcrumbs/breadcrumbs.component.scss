@@ -1,0 +1,33 @@
+nav {
+    display: flex;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+span {
+    margin-right: 5px;
+}
+
+span:not(:last-child)::after {
+    content: '/';
+    margin-left: 5px;
+    color: #666;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+    cursor: pointer;
+}

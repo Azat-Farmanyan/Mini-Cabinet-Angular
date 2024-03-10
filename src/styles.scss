@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("./null.scss");
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+.wrapper {
+    padding: 30px;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 28px;
+    text-transform: uppercase;
+    padding: 20px 0;
+}
+
+.full-width {
+    width: 100%;
+}

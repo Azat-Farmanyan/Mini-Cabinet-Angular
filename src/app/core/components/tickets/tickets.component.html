@@ -1,0 +1,33 @@
+<div class="tickets-block">
+    <h1 class="page-title">{{pageTitle}}</h1>
+
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+            <mat-cell *matCellDef="let ticket" (click)="onClickTicket(ticket.id)" class="hoverable">
+                {{ ticket.id }}
+            </mat-cell>
+        </ng-container>
+
+        <!-- Title Column -->
+        <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Title</mat-header-cell>
+            <mat-cell *matCellDef="let ticket" (click)="onClickTicket(ticket.id)" class="hoverable">
+                {{ ticket.title }}
+            </mat-cell>
+        </ng-container>
+
+        <!-- Date Created Column -->
+        <ng-container matColumnDef="dateCreated">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Date Created</mat-header-cell>
+            <mat-cell *matCellDef="let ticket" (click)="onClickTicket(ticket.id)" class="hoverable">
+                {{ ticket.dateCreated | date }}
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple class="hoverable"></mat-row>
+    </mat-table>
+</div>

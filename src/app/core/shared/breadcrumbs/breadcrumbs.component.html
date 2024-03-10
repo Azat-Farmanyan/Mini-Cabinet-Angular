@@ -1,0 +1,12 @@
+@if (breadcrumbs.length>0) {
+<nav>
+    <ng-container *ngFor="let breadcrumb of breadcrumbs; let last = last">
+        <span [ngClass]="{'bold': last}">
+            <a *ngIf="!last" [routerLink]="breadcrumb.toLowerCase()">{{ breadcrumb }}</a>
+            <ng-container *ngIf="last">
+                {{ breadcrumb }}
+            </ng-container>
+        </span>
+    </ng-container>
+</nav>
+}

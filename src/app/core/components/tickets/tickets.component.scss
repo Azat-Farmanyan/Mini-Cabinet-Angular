@@ -1,0 +1,18 @@
+/* Можно добавить стили для MatTable */
+.page-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.mat-table {
+    width: 100%;
+}
+
+mat-row {
+    cursor: pointer;
+
+    &:hover {
+        color: rgb(43, 0, 60) !important;
+        background-color: rgb(240, 186, 255);
+    }
+}

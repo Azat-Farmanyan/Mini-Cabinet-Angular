@@ -1,0 +1,27 @@
+<div class="login-block">
+    <div class="login-body">
+        <h1 class="page-title">Login</h1>
+        <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+            <mat-form-field>
+                <mat-label>Enter username</mat-label>
+                <input matInput formControlName="username">
+                <mat-error *ngIf="loginForm.get('username')?.hasError('required')">Username is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Enter password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required</mat-error>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid"
+                class="full-width">Login</button>
+
+        </form>
+    </div>
+</div>
