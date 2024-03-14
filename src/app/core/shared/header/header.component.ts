@@ -9,10 +9,12 @@ import {
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService, User } from '../../services/auth.service';
-import { Subscription } from 'rxjs';
+import { AuthService } from '../../services/AuthService';
+import { Subscription, tap } from 'rxjs';
 import { UsersDataService } from '../../services/users-data.service';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { Store } from '@ngrx/store';
+import { selectAuthState } from '../../../reducers/state';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -22,13 +24,20 @@ import { LocalStorageService } from '../../services/local-storage.service';
 })
 export class HeaderComponent implements OnInit {
   authService = inject(AuthService);
+  store = inject(Store);
   router = inject(Router);
   localStorageService = inject(LocalStorageService);
-  userData: User;
 
-  userid = this.localStorageService.getItem('userId');
+  userid = 0;
+  public authState$ = this.store.select(selectAuthState);
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.select(selectAuthState).pipe(
+      tap((authState) => {
+        console.log(authState);
+      })
+    );
+  }
 
   logout() {
     this.authService.logout();

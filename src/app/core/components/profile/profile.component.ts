@@ -16,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
-import { AuthService, User } from '../../services/auth.service';
+import { AuthService } from '../../services/AuthService';
 import { UsersDataService } from '../../services/users-data.service';
 import {
   FormGroup,
@@ -28,6 +28,8 @@ import {
 import { LocalStorageService } from '../../services/local-storage.service';
 import { Subscription } from 'rxjs';
 import { BreadcrumbService } from '../../services/Breadcrumb.service';
+import { AuthState, selectAuthState, User } from '../../../reducers/state';
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -56,6 +58,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor() {}
 
+  store = inject(Store);
+
   authService = inject(AuthService);
   usersDataService = inject(UsersDataService);
   localStorageService = inject(LocalStorageService);
@@ -76,17 +80,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.profileForm.valid) {
-      const updatedUserData: Partial<User> = {
+      const updatedUserData: User = {
         firstName: this.profileForm.value.firstName,
         lastName: this.profileForm.value.lastName,
         birthDate: this.profileForm.value.birthDate,
         city: this.profileForm.value.city,
+        id: 0,
       };
 
       const userId = this.localStorageService.getItem('userId');
-      if (userId) {
-        this.usersDataService.updateUserById(+userId, updatedUserData);
-        // console.log('User updated:', updatedUserData);
+      if (userId && updatedUserData) {
+        this.usersDataService.updateUserById(+userId, {
+          ...updatedUserData,
+          id: +userId,
+        });
       }
     }
   }
@@ -103,17 +110,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   getUserData() {
-    const userId = this.localStorageService.getItem('userId');
-    if (userId) {
-      this.usersDataService.setActiveUser(+userId);
-      this.getUserSubs = this.usersDataService
-        .getActiveUser()
-        .subscribe((userDataRes) => {
-          this.userData = userDataRes;
+    this.getUserSubs = this.store
+      .select(selectAuthState)
+      .subscribe((authState: AuthState) => {
+        if (authState.user !== null) {
+          this.userData = authState.user;
           this.patchFormValues();
-          // console.log(userDataRes);
-        });
-    }
+        }
+      });
   }
 
   ngOnDestroy(): void {

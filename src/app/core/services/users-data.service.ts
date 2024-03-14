@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
-import { User } from './auth.service';
+import { User, setUserProfile } from './../../reducers/state';
+import { Injectable, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersDataService {
+  store = inject(Store);
+
   constructor() {}
 
   private users: User[] = [
@@ -54,7 +57,7 @@ export class UsersDataService {
     if (user) this.activeUserData.next(user);
   }
 
-  updateUserById(id: number, updatedUserData: Partial<User>) {
+  updateUserById(id: number, updatedUserData: User) {
     const userIndex = this.users.findIndex((user) => user.id === id);
     if (userIndex !== -1) {
       this.users[userIndex] = {
@@ -70,6 +73,12 @@ export class UsersDataService {
           ...updatedUserData,
         };
         this.activeUserData.next(updatedActiveUser);
+        if (updatedUserData)
+          this.store.dispatch(
+            setUserProfile({
+              user: updatedUserData,
+            })
+          );
       }
     }
   }

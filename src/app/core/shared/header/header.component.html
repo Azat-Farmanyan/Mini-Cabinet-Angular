@@ -4,5 +4,7 @@
 
     <button mat-button routerLink="/tickets" routerLinkActive="active">Tickets</button>
     <button mat-button [routerLink]="['/profile',userid]" routerLinkActive="active">Profile</button>
+    @if ((authState$ | async)?.isAuthenticated) {
     <button mat-raised-button (click)="logout()">Log Out</button>
+    }
 </mat-toolbar>
